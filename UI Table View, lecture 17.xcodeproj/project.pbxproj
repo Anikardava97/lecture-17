@@ -15,6 +15,7 @@
 		EEFBCE7C2AEF5AA00096D457 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFBCE7B2AEF5AA00096D457 /* MovieCell.swift */; };
 		EEFBCE7E2AEF64F40096D457 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFBCE7D2AEF64F40096D457 /* Constants.swift */; };
 		EEFBCE802AEF74230096D457 /* AddNewItemToListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFBCE7F2AEF74230096D457 /* AddNewItemToListViewController.swift */; };
+		EEFBCE842AF068A00096D457 /* ItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFBCE832AF068A00096D457 /* ItemDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		EEFBCE7B2AEF5AA00096D457 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		EEFBCE7D2AEF64F40096D457 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EEFBCE7F2AEF74230096D457 /* AddNewItemToListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemToListViewController.swift; sourceTree = "<group>"; };
+		EEFBCE832AF068A00096D457 /* ItemDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +65,9 @@
 				EEFBCE652AEF4CB20096D457 /* AppDelegate.swift */,
 				EEFBCE672AEF4CB20096D457 /* SceneDelegate.swift */,
 				EEFBCE792AEF51940096D457 /* MainViewController.swift */,
-				EEFBCE7B2AEF5AA00096D457 /* MovieCell.swift */,
 				EEFBCE7F2AEF74230096D457 /* AddNewItemToListViewController.swift */,
+				EEFBCE832AF068A00096D457 /* ItemDetailsViewController.swift */,
+				EEFBCE7B2AEF5AA00096D457 /* MovieCell.swift */,
 				EEFBCE7D2AEF64F40096D457 /* Constants.swift */,
 				EEFBCE6E2AEF4CB30096D457 /* Assets.xcassets */,
 				EEFBCE702AEF4CB30096D457 /* LaunchScreen.storyboard */,
@@ -148,6 +151,7 @@
 				EEFBCE662AEF4CB20096D457 /* AppDelegate.swift in Sources */,
 				EEFBCE7C2AEF5AA00096D457 /* MovieCell.swift in Sources */,
 				EEFBCE682AEF4CB20096D457 /* SceneDelegate.swift in Sources */,
+				EEFBCE842AF068A00096D457 /* ItemDetailsViewController.swift in Sources */,
 				EEFBCE802AEF74230096D457 /* AddNewItemToListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

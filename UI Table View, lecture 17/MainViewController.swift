@@ -10,15 +10,46 @@ struct Cells {
     static let movieCell = "MovieCell"
 }
 
-class MainViewController: UIViewController {
+class ResultsVC: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
 
+protocol mainViewControllerDelegate: AnyObject {
+    func addNewMovie(title: String, poster: UIImageView)
+}
+
+class MainViewController: UIViewController, mainViewControllerDelegate, UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+        
+        if !searchText.isEmpty {
+            let filteredMovies = favoriteMovies.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+            favoriteMovies = filteredMovies
+        } else {
+            favoriteMovies = fetchData()
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func addNewMovie(title: String, poster: UIImageView) {
+        let newMovie = Movie(poster: poster.image ?? UIImage() , title: title)
+        favoriteMovies.append(newMovie)
+        tableView.reloadData()
+    }
+    
     // MARK: - Properties
     
-    let tableView = UITableView()
-    var favoriteMovies: [Movie] = []
+    private let tableView = UITableView()
+    private var favoriteMovies: [Movie] = []
+    private let searchController = UISearchController(searchResultsController: ResultsVC())
     
     private let addItemButton: UIButton = {
-        
         let button = UIButton(type: .system)
         button.setTitle("Add Movie Poster", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -32,9 +63,24 @@ class MainViewController: UIViewController {
     // MARK: - ViewLifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Search"
+        
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.hidesBarsOnSwipe = false //ნავბარი მაინც ისქროლება, ვერ ვასწორებ :/
+        definesPresentationContext = true
+        
         favoriteMovies = fetchData()
         configureTableView()
         configureAddItemButton()
+    }
+    
+    //MARK: - Actions
+    @objc private func addButtonPressed() {
+        let otherViewController = AddNewItemToListViewController()
+        otherViewController.delegate = self
+        navigationController?.pushViewController(otherViewController, animated: true)
     }
     
     // MARK: - Methods
@@ -66,19 +112,13 @@ class MainViewController: UIViewController {
         favoriteMovies.append(movie)
         tableView.reloadData()
     }
-    
-    @objc private func addButtonPressed() {
-        let otherViewController = AddNewItemToListViewController()
-        let navigationController = UINavigationController(rootViewController: AddNewItemToListViewController())
-        self.present(navigationController, animated: true, completion: nil)
-    }
 }
 
-    // MARK: - TableVIew DataSource & Delegate
+// MARK: - TableVIew DataSource & Delegate
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoriteMovies.count
+        favoriteMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,9 +128,29 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedMovie = favoriteMovies[indexPath.row]
+        let itemsDetailsVC = ItemDetailsViewController()
+        itemsDetailsVC.selectedMovie = selectedMovie
+        
+        navigationController?.pushViewController(itemsDetailsVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            favoriteMovies.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
 
-    // MARK: - Constraint extension & fetchData
+// MARK: - Constraint extension & fetchData
 extension UIView {
     
     func pin(to superView: UIView) {

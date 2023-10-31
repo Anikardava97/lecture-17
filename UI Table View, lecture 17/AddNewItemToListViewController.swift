@@ -4,6 +4,9 @@ import UIKit
 class AddNewItemToListViewController: UIViewController {
     
     //MARK: - Properties
+    
+    weak var delegate: mainViewControllerDelegate?
+    
     private let masterStackView: UIStackView = {
         
         let masterStackView = UIStackView()
@@ -63,7 +66,7 @@ class AddNewItemToListViewController: UIViewController {
         setUpBackground()
         setUpSubviews()
         setUpConstraints()
-        
+        didTapSaveButton()
     }
     
     //MARK: - Actions
@@ -75,6 +78,15 @@ class AddNewItemToListViewController: UIViewController {
         present(vc, animated: true)
     }
     
+    @objc func didTapSaveButton() {
+        if movieTitleTextField.text?.isEmpty == true && imageView.image == nil {
+            print("Please, fill textfield and upload photo")
+        } else {
+            delegate?.addNewMovie(title: movieTitleTextField.text ?? "", poster: imageView)
+        }
+        dismiss(animated: true)
+        
+    }
     //MARK: - Private Methods
     
     private func setUpBackground() {
@@ -88,8 +100,8 @@ class AddNewItemToListViewController: UIViewController {
         masterStackView.addArrangedSubview(imageView)
         masterStackView.addArrangedSubview(saveButton)
         
-        
         addPosterButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
         masterStackView.addArrangedSubview(imageView)
     }
     
